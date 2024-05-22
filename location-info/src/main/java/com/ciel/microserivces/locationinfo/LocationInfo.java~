@@ -1,0 +1,5 @@
+package com.ciel.microserivces.locationinfo;
+
+public class LocationInfo {
+
+}

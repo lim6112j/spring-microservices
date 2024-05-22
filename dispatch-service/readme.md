@@ -1,0 +1,9 @@
+http://localhost:8000/from/Loc/to/Geocode
+
+* sql
+insert into geocode 
+(id, from_geocode, to_geocode, loc_to, loc_from, environment )
+
+* values (1001, "seoul street 1", "busan street 2","(36.232, 127.333)", "(37.33, 127.33)", "8000")
+
+* getLocationInfo service -> geocode service -> repository
