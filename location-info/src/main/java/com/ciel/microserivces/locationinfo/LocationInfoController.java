@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class LocationInfoController {
 		@Autowired
+		private DispatchProxy proxy;
+		@Autowired
 		private Environment environment;
 		@GetMapping("/location-info/from/{from}/to/{to}")
 		public LocationInfo retrieveInfo(@PathVariable String from,@PathVariable String to) {
@@ -23,7 +25,13 @@ public class LocationInfoController {
 				uriVariables.put("to", to);
 				LocationInfo response = new RestTemplate().getForEntity(url, LocationInfo.class, uriVariables).getBody();
 				
-				LocationInfo locationinfo = new LocationInfo(response.getId(), from, to, response.getFromGeocode(), response.getToGeocode(), response.getEnvironment());
+				LocationInfo locationinfo = new LocationInfo(response.getId(), from, to, response.getFromGeocode(), response.getToGeocode(), response.getEnvironment() + " " + "Rest Template");
 				return locationinfo;
+		}
+		@GetMapping("/location-info-feign/from/{from}/to/{to}")
+		public LocationInfo retrieveInfoFeign(@PathVariable String from,@PathVariable String to) {
+				LocationInfo response = proxy.retrieveGeocode(from, to);
+				LocationInfo locationinfo = new LocationInfo(response.getId(), from, to, response.getFromGeocode(), response.getToGeocode(), response.getEnvironment() + " " + "Feign");
+				return locationinfo;				
 		}
 }
