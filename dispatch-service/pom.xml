@@ -57,6 +57,7 @@
 			<artifactId>vavr</artifactId>
 			<version>0.10.4</version>
 		</dependency>
+		<!-- zipkin setting -->
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-observation</artifactId>
