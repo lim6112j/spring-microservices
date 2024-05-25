@@ -15,12 +15,11 @@ services:
     # environment:
     #   - "SPRING_PROFILES_ACTIVE=native"
 
-  
   dispatch-service:
     image: ciel/microservice-dispatch-service:0.0.1-SNAPSHOT
     mem_limit: 700m
     ports:
-      - "8000:8001"
+      - "8000:8000"
     networks:
       - my-network
     depends_on:
@@ -35,7 +34,7 @@ services:
       SPRING.CONFIG.IMPORT: optional:configserver:http://cloud-config-server:8888      
       SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
       MANAGEMENT.ZIPKIN.TRACING.ENDPOINT:  http://zipkin-server:9411/api/v2/spans
-      
+  
   location-info:
     image: ciel/microservice-location-info:0.0.1-SNAPSHOT
     mem_limit: 700m
