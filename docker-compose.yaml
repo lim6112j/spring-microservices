@@ -1,0 +1,76 @@
+version: '3.7'
+services:
+  
+  cloud-config-server:
+    image: ciel/microservice-cloud-config-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8888:8888"
+    networks:
+      - my-network
+    volumes:
+      - /Users/byeongcheollim/config-repo:/home/cnb/config-repo
+    healthcheck:
+      test: "exit 0"      
+    # environment:
+    #   - "SPRING_PROFILES_ACTIVE=native"
+      
+  dispatch-service:
+    image: ciel/microservice-dispatch-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - my-network
+    depends_on:
+      naming-server:
+        condition: service_started
+      cloud-config-server:
+        condition: service_healthy
+      
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.CONFIG.IMPORT: optional:configserver:http://cloud-config-server:8888
+      
+  location-info:
+    image: ciel/microservice-location-info:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8100:8100"
+    networks:
+      - my-network
+    depends_on:
+      naming-server:
+        condition: service_started
+      cloud-config-server:
+        condition: service_healthy      
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.CONFIG.IMPORT: optional:configserver:http://cloud-config-server:8888
+  api-gateway:
+    image: ciel/microservice-api-gateway:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - my-network
+    depends_on:
+      naming-server:
+        condition: service_started
+      cloud-config-server:
+        condition: service_healthy
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      
+  naming-server:
+    image: ciel/microservice-naming-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - my-network
+    healthcheck:
+      test: "exit 0"    
+
+networks:
+  my-network:
