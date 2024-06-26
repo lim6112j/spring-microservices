@@ -4,3 +4,5 @@
 *~
 /**/target
 *.class
+api-gateway/.metals
+api-gateway/.bloop
