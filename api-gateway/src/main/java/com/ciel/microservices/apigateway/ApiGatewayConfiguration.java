@@ -8,7 +8,10 @@ import org.springframework.cloud.gateway.route.builder.Buildable;
 import org.springframework.cloud.gateway.route.builder.PredicateSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class ApiGatewayConfiguration {
 	@Bean
 	public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
@@ -16,10 +19,12 @@ public class ApiGatewayConfiguration {
 				.filters(f -> f.addRequestHeader("MyHeader", "hello world").addRequestParameter("my param", "10"))
 				.uri("http://httpbin.org:80");
 		return builder.routes().route(routeFunction)
-				.route(p -> p.path("/dispatch-service/**").uri("lb://dispatch-service"))
-				.route(p -> p.path("/location-info/**").uri("lb://location-info"))
-				.route(p -> p.path("/location-info-feign/**").uri("lb://location-info"))
-				.route(p -> p.path("/location-info-new/**").filters(
+				.route(p -> p.path("/dispatch-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://dispatch-service"))
+				.route(p -> p.path("/location-info/v3/api-docs").and().method(HttpMethod.GET).uri("lb://location-info"))
+				.route(p -> p.path("/dispatch-service").uri("lb://dispatch-service"))
+				.route(p -> p.path("/location-info").uri("lb://location-info"))
+				.route(p -> p.path("/location-info-feign").uri("lb://location-info"))
+				.route(p -> p.path("/location-info-new").filters(
 						f -> f.rewritePath("/location-info-new/(?<segment>.*)", "/location-info-feign/${segment}"))
 						.uri("lb://location-info"))
 				.build();

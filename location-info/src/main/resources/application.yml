@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: location-info
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+server:
+  port: 8100
+  servlet:
+    context-path: /
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+# for zipkin
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+logging:
+  pattern: level:%5p [${spring.application.name:}, %X{traceId:-},%X{spanId:-}]
+
+# open api
+openapi:
+  service:
+    title: location-info service doc
+    version: 1.0.0
+    url: http://localhost:8765
+springdoc:
+  api-docs:
+    path: /location-info/v3/api-docs
+  swagger-ui:
+    path: /location-info/swagger-ui.html

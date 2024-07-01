@@ -34,8 +34,8 @@ springdoc:
         name: API Gateway Service
         primaryName: API Gateway Service
       - url: /location-info/v3/api-docs
-        name: Location Service
-        primaryName: location Service
+        name: location-info
+        primaryName: location-info
       - url: /dispatch-service/v3/api-docs
-        name: Dispatch Service
-        primaryName: Dispatch Service
+        name: dispatch-service
+        primaryName: dispatch-service

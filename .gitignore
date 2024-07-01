@@ -4,10 +4,8 @@
 *~
 /**/target
 *.class
-api-gateway/.metals
-api-gateway/.bloop
-cloud.config.server/.settings
-cloud.config.server/target
-cloud.config.server/.classpath
-location-info/.bloop
-location-info/.metals
+/**/.metals
+/**/.bloop
+/**/.settings
+/**/target
+/**/.classpath
