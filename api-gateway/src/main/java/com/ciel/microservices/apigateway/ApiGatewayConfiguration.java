@@ -21,6 +21,8 @@ public class ApiGatewayConfiguration {
 		return builder.routes().route(routeFunction)
 				.route(p -> p.path("/dispatch-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://dispatch-service"))
 				.route(p -> p.path("/location-info/v3/api-docs").and().method(HttpMethod.GET).uri("lb://location-info"))
+				.route(p -> p.path("/dispatch-engine-service/v3/api-docs").uri("lb://dispatch-engine-service"))
+				.route(p -> p.path("/dispatch-engine-servicei/**").uri("lb://dispatch-engine-service"))
 				.route(p -> p.path("/dispatch-servicei/**").uri("lb://dispatch-service"))
 				.route(p -> p.path("/location-info/**").uri("lb://location-info"))
 				.route(p -> p.path("/location-info-feign/**").uri("lb://location-info"))

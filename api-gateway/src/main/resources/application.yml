@@ -39,3 +39,6 @@ springdoc:
       - url: /dispatch-service/v3/api-docs
         name: dispatch-service
         primaryName: dispatch-service
+      - url: /dispatch-engine-service/v3/api-docs
+        name: Dispatch Engine Service
+        primaryName: Dispatch Engine Service
