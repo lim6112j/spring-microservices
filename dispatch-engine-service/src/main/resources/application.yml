@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: dispatch-engine-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    client:
+      serviceUrl:
+        defaultZone: http://localhost/8761/eureka
+server:
+  port: 8201
+  servlet:
+    context-path: /
+openapi:
+  service:
+    title: dispatch-engine-service doc
+    version: 1.0.0
+    url: http://localhost:8765
+springdoc:
+  api-docs:
+    path: /dispatch-engine-service/v3/api-docs
+  swagger-ui:
+    path: /dispatch-engine-service/swagger-ui.html
