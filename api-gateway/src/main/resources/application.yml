@@ -17,6 +17,15 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: [health, actuator, info]
+  info:
+    env:
+      enabled: true
 logging:
   pattern: level:%5p [${spring.application.name:}, %X{traceId:-},%X{spanId:-}]
 
