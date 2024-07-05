@@ -1,6 +1,6 @@
 # config file at ~/config-repo
 
-change and git commit should be needed for cloud config 
+change and git commit should be needed for cloud config
 
 file name => ${spring-project-name}.properties or .yaml
 
@@ -18,11 +18,11 @@ http://localhost:8100/location-info-feign/from/(37.33,127.33)/to/(36.232,127.333
 
 # naming-server : port 8761
 
-# api-gateway : port 8765 
+# api-gateway : port 8765
 
 http://localhost:8765/LOCATION-INFO/location-info/from/(37.33,%20127.33)/to/(36.232,%20127.333)
 
-http://localhost:8765/DISPATCH-SERVICE/dispatch-service/from/(37.33,127.33)/to/(36.232,127.333) 
+http://localhost:8765/DISPATCH-SERVICE/dispatch-service/from/(37.33,127.33)/to/(36.232,127.333)
 
 # docker image creation
 
@@ -39,7 +39,7 @@ pom.xml file add below to spring-boot project
 						<name>ciel/microservice-${project.artifactId}:${project.version}</name>
 					</image>
 					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
-				</configuration>				
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -61,3 +61,8 @@ docker compose up  - server up
 docker compose down - server down and remove container
 
 
+# other language example for registering service to naming server
+
+./node-server
+./python-server
+./go-server
