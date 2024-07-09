@@ -66,3 +66,12 @@ docker compose down - server down and remove container
 ./node-server
 ./python-server
 ./go-server
+
+# api-docs for other language
+
+(참조) https://swagger.io/docs/specification/basic-structure/
+node-server index.js 참조.
+
+1. make api url like /xxx-service/v3/api-docs in service that sends response according to openapi 3.1.0 spec.
+2. register service on  eureka server
+3. configure on api-server for the api url
