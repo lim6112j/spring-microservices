@@ -19,6 +19,3 @@ dispatch-service:
 
 naming-server:
 	cd naming-server && ./mvnw spring-boot:build-image -DskipTests
-
-state-layer:
-	cd state-layer && ./mvnw spring-boot:build-image -DskipTests
