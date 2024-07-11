@@ -1,0 +1,299 @@
+openapi: 3.0.0
+info:
+  title: Core API
+  version: 1.0.0
+  description: 차량 공유 서비스를 위한 Core API
+
+paths:
+  /vehicle:
+    post:
+      summary: 새 차량 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleInput'
+      responses:
+        '201':
+          description: 생성된 차량 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+                
+  /vehicle/{id}:
+    get:
+      summary: 차량 정보 조회
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 차량 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+                
+    put:
+      summary: 차량 정보 업데이트
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleInput'
+      responses:
+        '200':
+          description: 업데이트된 차량 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+                
+  /customer/request:
+    post:
+      summary: 새 고객 요청 생성
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: 생성된 요청 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Request'
+                
+  /customer/{id}/status:
+    get:
+      summary: 고객 요청 상태 조회
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 고객 요청 상태
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+                
+  /route/calculate:
+    post:
+      summary: 경로 계산
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RouteRequest'
+      responses:
+        '200':
+          description: 계산된 경로
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Route'
+                
+  /route/{id}:
+    get:
+      summary: 경로 정보 조회
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 경로 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Route'
+                
+  /event:
+    post:
+      summary: 새 이벤트 생성
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+      responses:
+        '201':
+          description: 생성된 이벤트 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Event'
+                
+  /event/{id}:
+    get:
+      summary: 이벤트 정보 조회
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 이벤트 정보
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Event'
+
+components:
+  schemas:
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        capacity:
+          type: integer
+        occupancy:
+          type: integer
+          
+    VehicleInput:
+      type: object
+      properties:
+        status:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        capacity:
+          type: integer
+          
+    CustomerRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+        startLatitude:
+          type: number
+        startLongitude:
+          type: number
+        endLatitude:
+          type: number
+        endLongitude:
+          type: number
+          
+    Request:
+      type: object
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        status:
+          type: string
+        startLatitude:
+          type: number
+        startLongitude:
+          type: number
+        endLatitude:
+          type: number
+        endLongitude:
+          type: number
+        requestTime:
+          type: string
+          format: date-time
+          
+    RequestStatus:
+      type: object
+      properties:
+        requestId:
+          type: integer
+        status:
+          type: string
+        vehicleId:
+          type: integer
+        estimatedArrival:
+          type: string
+          format: date-time
+          
+    RouteRequest:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        waypoints:
+          type: array
+          items:
+            type: object
+            properties:
+              latitude:
+                type: number
+              longitude:
+                type: number
+              
+    Route:
+      type: object
+      properties:
+        id:
+          type: integer
+        vehicleId:
+          type: integer
+        waypoints:
+          type: array
+          items:
+            type: object
+            properties:
+              latitude:
+                type: number
+              longitude:
+                type: number
+        distance:
+          type: number
+        duration:
+          type: integer
+          
+    EventInput:
+      type: object
+      properties:
+        type:
+          type: string
+        payload:
+          type: object
+          
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        payload:
+          type: object
+        createdAt:
+          type: string
+          format: date-time

@@ -1,0 +1,12 @@
+instance:
+  app: node-test-serivce
+  hostname: localhost
+  ipAddr: 127.0.0.1
+  vipAddress: node-test-service
+  port: 8300
+  dataCenterInfo:
+    name: MyOwn
+eureka:
+  host: localhost
+  port: 8761
+  servicePath: /eureka
