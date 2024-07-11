@@ -75,3 +75,11 @@ node-server index.js 참조.
 1. make api url like /xxx-service/v3/api-docs in service that sends response according to openapi 3.1.0 spec.
 2. register service on  eureka server
 3. configure on api-server for the api url
+
+
+============================
+### Required Infra Server To run
+- api-gateway
+- cloud.config.server
+- dispatch-engine-service
+

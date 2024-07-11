@@ -4,16 +4,17 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 
+const port = 8600;
 const eureka_client = new Eureka({
     instance: {
-        app: "nodejs-service",
+        app: "state-layer-service",
         hostName: "localhost",
         ipAddr: "127.0.0.1",
         port: {
-            $: 8300,
+            $: port,
             "@enabled": "true",
         },
-        vipAddress: "nodejs-service",
+        vipAddress: "state-layer-service",
         dataCenterInfo: {
             "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
             name: "MyOwn",
@@ -27,7 +28,7 @@ const eureka_client = new Eureka({
 });
 
 const app = express();
-const port = 8300;
+
 
 // Load OpenAPI spec from YAML file
 const loadOpenApiSpec = () => {
@@ -45,7 +46,7 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.get("/state-layer/v1/api-docs", (req, res) => {
+app.get("/state-layer-service/v3/api-docs", (req, res) => {
     const openApiSpec = loadOpenApiSpec();
     if (openApiSpec) {
         res.json(openApiSpec);

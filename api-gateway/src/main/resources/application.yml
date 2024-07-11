@@ -53,3 +53,5 @@ springdoc:
         primaryName: Dispatch Engine Service
       - url: /node-service/v3/api-docs
         name: Node Service
+      - url: /state-layer-service/v3/api-docs
+        name: State Layer Api
