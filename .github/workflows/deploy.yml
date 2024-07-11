@@ -1,0 +1,58 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no ciel@223.130.146.101 << 'EOF'
+          cd ~/CoreSystemMicroservices
+          git pull origin main
+
+          # Stop and remove existing containers
+          # docker-compose down
+          
+          # Determine which services have changed
+          CHANGED_SERVICES=$(git diff --name-only HEAD~1 HEAD | awk -F'/' '{print $1}' | sort -u)
+
+          for service in $CHANGED_SERVICES; do
+            case $service in
+              api-gateway)
+                make api-gateway
+                ;;
+              dispatch-engine-service)
+                make dispatch-engine-service
+                ;;
+              location-info)
+                make location-info
+                ;;
+              cloud.config.server)
+                make cloud.config.server
+                ;;
+              dispatch-service)
+                make dispatch-service
+                ;;
+              naming-server)
+                make naming-server
+                ;;
+            esac
+          done
+
+          # Run docker-compose up in daemon mode
+          docker-compose up -d
+        EOF
